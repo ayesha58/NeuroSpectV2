@@ -51,7 +51,7 @@ public class RecallGame : MonoBehaviour
         startGame = true;
     }
 
-   void onClick(Button clickedButton)
+    void onClick(Button clickedButton)
     {
         selected = true;
         clickedImg = clickedButton.GetComponent<Image>().sprite.texture;
@@ -61,7 +61,8 @@ public class RecallGame : MonoBehaviour
         if (clickedButton.GetComponent<Image>().sprite.texture.ToString().Equals(correctImg.ToString()))
         {
             numCorrect++;
-        } else
+        }
+        else
         {
             numWrong++;
         }
@@ -69,14 +70,14 @@ public class RecallGame : MonoBehaviour
 
     void Instantiate()
     {
-        foreach(Button button in allButtons)
+        foreach (Button button in allButtons)
         {
             button.gameObject.SetActive(true);
         }
 
         List<Button> buttonList = allButtons;
         List<Texture2D> displayedImgs = new List<Texture2D>();
-        List<int> orderOfImgs = new List<int>{ 0, 1, 2, 3, 4, 5 };
+        List<int> orderOfImgs = new List<int> { 0, 1, 2, 3, 4, 5 };
 
         Debug.Log(iteration + ": Beginning");
 
@@ -89,11 +90,11 @@ public class RecallGame : MonoBehaviour
 
         //Add 2 Same Sub-Category Img
         List<Texture2D> sameSubCateg = new List<Texture2D>();
-        foreach(Texture2D img in notChosen)
+        foreach (Texture2D img in notChosen)
         {
             string[] categorization = img.ToString().Split('-');
 
-            if(categorization[0].Equals(categorizationCorrect[0]) && categorization[1].Equals(categorizationCorrect[1]) && categorization[2].Equals(categorizationCorrect[2]))
+            if (categorization[0].Equals(categorizationCorrect[0]) && categorization[1].Equals(categorizationCorrect[1]) && categorization[2].Equals(categorizationCorrect[2]))
             {
                 {
                     sameSubCateg.Add(img);
@@ -108,7 +109,7 @@ public class RecallGame : MonoBehaviour
         int rand1 = Random.Range(0, sameSubCateg.Count);
         int rand2 = Random.Range(0, sameSubCateg.Count);
 
-        while(rand2 == rand1)
+        while (rand2 == rand1)
         {
             rand2 = Random.Range(0, sameSubCateg.Count);
         }
@@ -184,7 +185,7 @@ public class RecallGame : MonoBehaviour
         //Assigning Imgs to Buttons
         orderOfImgs = orderOfImgs.OrderBy(x => Random.value).ToList();
 
-        for(int i = 0; i < displayedImgs.Count; i++)
+        for (int i = 0; i < displayedImgs.Count; i++)
         {
             Texture2D element1 = displayedImgs[i];
             Texture2D element2 = displayedImgs[orderOfImgs[i]];
@@ -208,16 +209,11 @@ public class RecallGame : MonoBehaviour
             }
         }
 
-        int index = 0;
-        foreach (Button button in allButtons)
-        {
-            button.onClick.AddListener(() => onClick(button));
-            index++;
-        }
+        enableButtons();
     }
 
     void Start()
-    {   
+    {
         widthDec = timerBar.transform.localScale.x / 4;
         this.chosenList = DisplayMemoryIcons.chosenList;
 
@@ -228,7 +224,7 @@ public class RecallGame : MonoBehaviour
 
         foreach (Texture2D img in this.allImgs)
         {
-            if(!chosenList.Contains(img))
+            if (!chosenList.Contains(img))
             {
                 notChosen.Add(img);
             }
@@ -244,38 +240,43 @@ public class RecallGame : MonoBehaviour
     {
         if (startGame && iteration < chosenList.Count)
         {
+            // waiting for player to select image
             if (timeLeft < 4f && !selected && iteration < 30)
             {
                 timeLeft += Time.deltaTime;
                 timerBar.transform.localScale -= new Vector3(Time.deltaTime * widthDec, 0.0f, 0.0f);
-            } else if(timeLeft < 4f && selected && iteration < 30)
+            }
+            // player selected image within time limit
+            else if (timeLeft < 4f && selected && iteration < 30)
             {
                 string[] categorizationClicked = clickedImg.ToString().Split('-');
                 string[] categorizationCorrect = correctImg.ToString().Split('-');
                 bool correct = clickedImg.ToString().Equals(correctImg.ToString());
 
                 recall_data.Add(iteration + "," + categorizationCorrect[0] + "," + categorizationCorrect[1] + "," + categorizationCorrect[2]
-                                + "," + categorizationCorrect[3] + "," + categorizationClicked[0] + "," + categorizationClicked[1] + "," 
+                                + "," + categorizationCorrect[3] + "," + categorizationClicked[0] + "," + categorizationClicked[1] + ","
                                 + categorizationClicked[2] + "," + categorizationClicked[3] + "," + correct.ToString() + "," + timeLeft.ToString() + "\n");
 
                 timeLeft = 4f;
 
-                foreach(Button button in allButtons)
-                {
-                    button.onClick.RemoveAllListeners();
-                }
-            } else if(timeLeft >= 4f && timeLeft < 5f && !selected && iteration < 30)
+                disableButtons();
+            }
+            // player failed to select image within time limit
+            else if (timeLeft >= 4f && timeLeft < 5f && !selected && iteration < 30)
             {
                 numTimesUp++;
 
                 selected = true;
             }
-            else if(timeLeft >= 4f && timeLeft < 5f && selected && iteration < 30)
+            // player selected image after timeup
+            else if (timeLeft >= 4f && timeLeft < 5f && selected && iteration < 30)
             {
                 timeLeft += Time.deltaTime;
-            } else if(timeLeft >= 5f && iteration < 30)
+            }
+            // next round
+            else if (timeLeft >= 5f && iteration < 30)
             {
-                if(!selected && iteration > 0)
+                if (!selected && iteration > 0)
                 {
                     string[] categorizationCorrect = correctImg.ToString().Split('-');
                     recall_data.Add(iteration + "," + categorizationCorrect[0] + "," + categorizationCorrect[1] + "," + categorizationCorrect[2]
@@ -298,10 +299,34 @@ public class RecallGame : MonoBehaviour
 
                 iteration++;
             }
-        } else if(iteration >= 30)
+        }
+        // recall game completed
+        else if (iteration >= 30)
         {
             DataStorage._recallData = recall_data;
             SceneManager.LoadScene(10);
+        }
+    }
+
+    private void enableButtons()
+    {
+        foreach (Button button in allButtons)
+        {
+            button.onClick.AddListener(() => onClick(button));
+            button.GetComponent<UIOnHoverEvent>().enabled = true;
+            button.GetComponent<UIOnHoverEvent>().ResetScale();
+            button.enabled = true;
+        }
+    }
+
+    private void disableButtons()
+    {
+        foreach (Button button in allButtons)
+        {
+            button.onClick.RemoveAllListeners();
+            // button.GetComponent<UIOnHoverEvent>().ResetScale();
+            button.GetComponent<UIOnHoverEvent>().enabled = false;
+            button.enabled = false;
         }
     }
 }

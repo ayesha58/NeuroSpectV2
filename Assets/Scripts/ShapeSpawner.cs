@@ -17,6 +17,8 @@ public class ShapeSpawner : MonoBehaviour
     private bool textAppear = false;
     private float timeOfText = 0.0f;
 
+    private const int totalIterations = 10;//100;
+
     public List<GameObject> arrayOfShapes;
     public GameObject shape1;
     public GameObject shape2;
@@ -67,7 +69,7 @@ public class ShapeSpawner : MonoBehaviour
     void Start()
     {
         factorOfDecrease = (1.25f - 0.032f) / 25;
-        for(int i = 0; i < 25; i++)
+        for (int i = 0; i < 25; i++)
         {
             correct.Add(0);
             wrong.Add(0);
@@ -85,16 +87,19 @@ public class ShapeSpawner : MonoBehaviour
     string return_shape(int randint)
     {
         string shape = "";
-        if(randint % 4 == 0)
+        if (randint % 4 == 0)
         {
             shape = "Capsule";
-        } else if(randint % 4 == 1)
+        }
+        else if (randint % 4 == 1)
         {
             shape = "Circle";
-        } else if(randint % 4 == 2)
+        }
+        else if (randint % 4 == 2)
         {
             shape = "Diamond";
-        } else if(randint % 4 == 3)
+        }
+        else if (randint % 4 == 3)
         {
             shape = "Square";
         }
@@ -104,15 +109,15 @@ public class ShapeSpawner : MonoBehaviour
     string return_color(int randint)
     {
         string shape = "";
-        if ((int) (randint / 4) == 0)
+        if ((int)(randint / 4) == 0)
         {
             shape = "Blue";
         }
-        else if ((int) (randint / 4) == 1)
+        else if ((int)(randint / 4) == 1)
         {
             shape = "Green";
         }
-        else if ((int) (randint / 4) == 2)
+        else if ((int)(randint / 4) == 2)
         {
             shape = "Orange";
         }
@@ -122,27 +127,28 @@ public class ShapeSpawner : MonoBehaviour
 
     void Update()
     {
-        if(iterations == 4)
+        if (iterations == 4)
         {
             Debug.Log("Here");
-            if(correct[0] >= 2)
+            if (correct[0] >= 2)
             {
                 timeOfAppearance = 1.25f;
                 timeShown = 1.5f;
-            } else if(correct[0] < 2)
+            }
+            else if (correct[0] < 2)
             {
                 SceneManager.LoadScene(7);
             }
         }
 
-        if(timeOfText >= 0.75f)
+        if (timeOfText >= 0.75f)
         {
             timeOfText = 0;
-            textAppear = false; 
+            textAppear = false;
             correctText.gameObject.SetActive(false);
             wrongText.gameObject.SetActive(false);
         }
-        if (iterations < 100 && beginSpawn)
+        if (iterations < totalIterations && beginSpawn)
         {
             if (Input.GetKeyDown(KeyCode.A) && !choiceSelected)
             {
@@ -157,10 +163,11 @@ public class ShapeSpawner : MonoBehaviour
                                         + "," + return_shape(randInt2) + "," + return_color(randInt2) + "," + "True,True,True,"
                                         + timeOfAppearance.ToString() + "," + nextUpdate.ToString());
 
-                    attention_data.Add(iterations + "," + return_shape(randInt1) + "," + return_color(randInt1) 
-                                        + "," + return_shape(randInt2) + "," + return_color(randInt2) + "," + "True,True,True," 
+                    attention_data.Add(iterations + "," + return_shape(randInt1) + "," + return_color(randInt1)
+                                        + "," + return_shape(randInt2) + "," + return_color(randInt2) + "," + "True,True,True,"
                                         + timeOfAppearance.ToString() + "," + nextUpdate.ToString() + "\n");
-                } else if (!color1.Equals(color2))
+                }
+                else if (!color1.Equals(color2))
                 {
                     wrong[iterations / 4] += 1;
                     choiceSelected = true;
@@ -175,7 +182,8 @@ public class ShapeSpawner : MonoBehaviour
                                         + "," + return_shape(randInt2) + "," + return_color(randInt2) + "," + "False,True,False,"
                                         + timeOfAppearance.ToString() + "," + nextUpdate.ToString() + "\n");
                 }
-            } else if (Input.GetKeyDown(KeyCode.D) && !choiceSelected)
+            }
+            else if (Input.GetKeyDown(KeyCode.D) && !choiceSelected)
             {
                 if (color1.Equals(color2))
                 {
@@ -191,7 +199,8 @@ public class ShapeSpawner : MonoBehaviour
                     attention_data.Add(iterations + "," + return_shape(randInt1) + "," + return_color(randInt1)
                                         + "," + return_shape(randInt2) + "," + return_color(randInt2) + "," + "True,False,False,"
                                         + timeOfAppearance.ToString() + "," + nextUpdate.ToString() + "\n");
-                } else if (!color1.Equals(color2))
+                }
+                else if (!color1.Equals(color2))
                 {
                     correct[iterations / 4] += 1;
                     choiceSelected = true;
@@ -208,7 +217,7 @@ public class ShapeSpawner : MonoBehaviour
                 }
             }
 
-            if(textAppear)
+            if (textAppear)
             {
                 timeOfText += Time.deltaTime;
             }
@@ -244,7 +253,7 @@ public class ShapeSpawner : MonoBehaviour
                                         + timeOfAppearance.ToString() + "," + nextUpdate.ToString() + "\n");
                 }
                 iterations++;
-                if (iterations < 100)
+                if (iterations < totalIterations)
                 {
                     SpawnShapes();
                 }
@@ -253,11 +262,10 @@ public class ShapeSpawner : MonoBehaviour
                 firstIter = true;
             }
         }
-        else if (iterations >= 100)
+        else if (iterations >= totalIterations)
         {
             DataStorage._attentionData = attention_data;
             SceneManager.LoadScene(8);
         }
     }
 }
- 

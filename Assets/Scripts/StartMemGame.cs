@@ -9,11 +9,21 @@ public class StartMemGame : MonoBehaviour
     public List<GameObject> gameObjs;
     private bool delayComplete = false;
     private float timePassed = 0;
-    private int processNum = 0;
+    private int processNum = 0; // current scale animation count
 
     private List<GameObject> objsWithoutCurr = new List<GameObject>();
 
     private Vector3 pos;
+
+    // scale animation values
+    private const float scaleAnimDuration = 0.01f; //1.0f; 
+    private Vector3 scaleAnimFactor = new Vector3(1f, 1f, 1f);
+
+    private const int totalImagesToEncode = 30;
+
+    // total number of scale up and scale down animations to perform
+    private const int totalScaleAnimCount = totalImagesToEncode * 2;
+
 
     void Start()
     {
@@ -32,45 +42,51 @@ public class StartMemGame : MonoBehaviour
     public void Update()
     {
 
-        if (delayComplete && processNum < 60)
+        if (delayComplete && processNum < totalScaleAnimCount)
         {
             int objNum = (int)processNum / 2;
+
+            // scale up
             if (processNum % 2 == 0)
             {
-
                 gameObjs[objNum].transform.position -= pos * Time.deltaTime;
                 gameObjs[objNum].transform.position += new Vector3(0, 0, -9f) * Time.deltaTime;
-                gameObjs[objNum].transform.localScale += new Vector3(1f, 1f, 1f) * Time.deltaTime;
+                gameObjs[objNum].transform.localScale += scaleAnimFactor * Time.deltaTime;
 
                 timePassed += Time.deltaTime;
-                if(timePassed >= 1f)
+                if (timePassed >= scaleAnimDuration)
                 {
                     processNum++;
                     timePassed = 0;
                     delayComplete = false;
                 }
-            } else if(processNum % 2 == 1)
+            }
+
+            // scale down
+            else if (processNum % 2 == 1)
             {
                 gameObjs[objNum].transform.position += pos * Time.deltaTime;
                 gameObjs[objNum].transform.position -= new Vector3(0, 0, -9f) * Time.deltaTime;
-                gameObjs[objNum].transform.localScale -= new Vector3(1f, 1f, 1f) * Time.deltaTime;
+                gameObjs[objNum].transform.localScale -= scaleAnimFactor * Time.deltaTime;
 
                 timePassed += Time.deltaTime;
 
-                if (timePassed >= 1.0f)
+                if (timePassed >= scaleAnimDuration)
                 {
                     processNum++;
                     delayComplete = false;
                     timePassed = 0;
                 }
             }
-        } else if(!delayComplete && processNum >= 60)
+        }
+        else if (!delayComplete && processNum >= totalScaleAnimCount)
         {
             SceneManager.LoadScene(5);
-        } else if(!delayComplete && processNum < 60)
+        }
+        else if (!delayComplete && processNum < totalScaleAnimCount)
         {
             timePassed += Time.deltaTime;
-            if(timePassed >= 1.0f)
+            if (timePassed >= scaleAnimDuration)
             {
                 if (processNum % 2 == 0)
                 {

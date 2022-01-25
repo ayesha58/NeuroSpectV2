@@ -9,6 +9,11 @@ public class UIOnHoverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     Vector3 cachedScale;
 
+    private void Awake()
+    {
+        cachedScale = transform.localScale;
+    }
+
     void Start()
     {
 
@@ -22,7 +27,11 @@ public class UIOnHoverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        transform.localScale = cachedScale;
+    }
 
+    public void ResetScale()
+    {
         transform.localScale = cachedScale;
     }
 }
