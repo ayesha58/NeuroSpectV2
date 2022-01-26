@@ -267,5 +267,11 @@ public class ShapeSpawner : MonoBehaviour
             DataStorage._attentionData = attention_data;
             SceneManager.LoadScene(8);
         }
+
+        // skip option
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            beginSpawn = true;
+        }
     }
 }

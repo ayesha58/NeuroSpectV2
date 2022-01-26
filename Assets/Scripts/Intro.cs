@@ -26,5 +26,11 @@ public class Intro : MonoBehaviour
         {
             SceneManager.LoadScene(2);
         }
+
+        // skip option
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            changeScene = true;
+        }
     }
 }
