@@ -72,6 +72,13 @@ public class DisplayScore : MonoBehaviour
             recall += (r + "\n");
         }
 
+        // Note: commented out as we dont have the extension.jslib file code
+        //SendScoreToWeb(recallScore, attentionScore);
+        
+    }
+
+    private void SendScoreToWeb(int recallScore, int attentionScore)
+    {
         /*if (Application.platform == RuntimePlatform.WebGLPlayer) {
             InsertData("userdata", codeStr, age, race, gender, attention, recall, attentionScore, recallScore);
         }*/
@@ -96,6 +103,7 @@ public class DisplayScore : MonoBehaviour
             Debug.Log("Success");
         }
 
+        // Note: Move this to new method
         NextScreen();
     }
 }

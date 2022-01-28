@@ -17,7 +17,7 @@ public class ShapeSpawner : MonoBehaviour
     private bool textAppear = false;
     private float timeOfText = 0.0f;
 
-    private const int totalIterations = 10;//100;
+    private const int totalIterations = 100; //10;// for testing
 
     public List<GameObject> arrayOfShapes;
     public GameObject shape1;

@@ -16,7 +16,7 @@ public class StartMemGame : MonoBehaviour
     private Vector3 pos;
 
     // scale animation values
-    private const float scaleAnimDuration = 0.01f; //1.0f; 
+    private const float scaleAnimDuration = 1.0f; //0.01f; // for testing
     private Vector3 scaleAnimFactor = new Vector3(1f, 1f, 1f);
 
     private const int totalImagesToEncode = 30;
@@ -81,7 +81,7 @@ public class StartMemGame : MonoBehaviour
         }
         else if (!delayComplete && processNum >= totalScaleAnimCount)
         {
-            SceneManager.LoadScene(5);
+            MoveToNextScreen();
         }
         else if (!delayComplete && processNum < totalScaleAnimCount)
         {
@@ -97,5 +97,16 @@ public class StartMemGame : MonoBehaviour
                 delayComplete = true;
             }
         }
+
+        // skip option
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            MoveToNextScreen();
+        }
+    }
+
+    private void MoveToNextScreen()
+    {
+        SceneManager.LoadScene(5);
     }
 }
