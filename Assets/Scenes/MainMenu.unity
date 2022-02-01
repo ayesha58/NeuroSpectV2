@@ -259,7 +259,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: NeuroSpect
+  m_Text: NEUROspect
 --- !u!222 &297539785
 CanvasRenderer:
   m_ObjectHideFlags: 0

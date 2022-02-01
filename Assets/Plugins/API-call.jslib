@@ -14,7 +14,7 @@ mergeInto(LibraryManager.library, {
     },
     GetBaseAPIURL: function () {
         var returnStr = window.sessionStorage.getItem("baseAPIURL");
-        if (!returnstr) {
+        if (!returnStr) {
             returnStr = "-";
         }
         var bufferSize = lengthBytesUTF8(returnStr) + 1;

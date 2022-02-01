@@ -332,7 +332,11 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: 40 to 54
       m_Image: {fileID: 0}
-    - m_Text: 55+
+    - m_Text: 55 to 64
+      m_Image: {fileID: 0}
+    - m_Text: 65 to 74
+      m_Image: {fileID: 0}
+    - m_Text: 75 to 84+
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2603,6 +2607,8 @@ MonoBehaviour:
     - m_Text: Black or African American
       m_Image: {fileID: 0}
     - m_Text: White
+      m_Image: {fileID: 0}
+    - m_Text: Hispanic
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

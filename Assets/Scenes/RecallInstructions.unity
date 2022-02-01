@@ -1348,7 +1348,7 @@ MonoBehaviour:
     saw in the beginning?\r\nIn this phase you will be shown 30 sets of images.\r\nEach
     set will have 6 images.\r\nbut only one of those images\n will be one of the
     original 30 images.\r\nYour job is to click on the one that appeared in the original
-    30 images.\r\nIt will look something like this: click any button to advance.\n"
+    30 images.\r\nIt will look something like this: click any image below to proceed.\n"
 --- !u!222 &982677640
 CanvasRenderer:
   m_ObjectHideFlags: 0
