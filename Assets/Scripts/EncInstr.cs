@@ -22,24 +22,21 @@ public class EncInstr : MonoBehaviour
     private const float centerX = -9.5f;
     private const float centerY = -8.5f;
 
+
     // Start is called before the first frame update
     void Start()
-    {
-        sr = new SpriteRenderer[gameObjects.Count];
-
-        for (int j = 0; j < gameObjects.Count; j++)
+    {       
+        for (int i = 0; i < gameObjects.Count; i++)
         {
-            sr[j] = gameObjects[j].AddComponent<SpriteRenderer>() as SpriteRenderer;
-        }
+            SpriteRenderer spriteRenderer = gameObjects[i].AddComponent<SpriteRenderer>();
 
-        //Changing Image Position Depending on Image Index 
-        for (int index = 0; index < chosenList.Count; index++)
-        {
-            //Vector3 shift = new Vector3((widthVal / -2.0f) + (widthVal * ((0.4f + (index % 6)) / 6.0f)), (height / 2.0f) - (height * (index / 6) / 4.5f) - 3.0f, 0.0f);
-            Vector3 shift = new Vector3(0.0f, 0.0f, 0.0f);
-            mySprite = Sprite.Create(chosenList[index], new Rect(0.0f, 0.0f, chosenList[index].width, chosenList[index].height), new Vector2(0.0f, 0.0f));
-            sr[index].sprite = mySprite;
-            gameObjects[index].transform.position += shift;
+            Texture2D texture = chosenList[i];
+
+            spriteRenderer.sprite = Sprite.Create(
+                texture,
+                new Rect(0.0f, 0.0f, texture.width, texture.height),
+                new Vector2(0.0f, 0.0f));
+
         }
 
         PositionImages();
@@ -54,67 +51,8 @@ public class EncInstr : MonoBehaviour
         SceneManager.LoadScene(4);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //if (timePassed < 1.0f)
-        //{
-        //    timePassed += Time.deltaTime;
-        //}
-
-        //if (objNum >= 4 && timePassed >= 1.0f)
-        //{
-        //    SceneManager.LoadScene(4);
-
-        //}
-        //else if (objNum < 4)
-        //{
-        //    // scale up
-        //    if (timePassed >= 1.0f && timePassed < 2.0f)
-        //    {
-        //        timePassed += Time.deltaTime;
-
-        //        float valIncrease = 5f - (objNum * 5);
-
-        //        //Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, -10 * Time.deltaTime);
-        //        Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, 0);
-
-        //        gameObjects[objNum].transform.localScale += new Vector3(Time.deltaTime, Time.deltaTime);
-
-        //        gameObjects[objNum].transform.position += posTo;
-        //    }
-        //    // stay
-        //    else if (timePassed >= 2.0f && timePassed < 3.0f)
-        //    {
-        //        timePassed += Time.deltaTime;
-        //    }
-        //    // scale down
-        //    else if (timePassed >= 3.0f && timePassed < 4.0f)
-        //    {
-        //        float valIncrease = 5f - (objNum * 5);
-
-        //        timePassed += Time.deltaTime;
-
-        //        //Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, -10 * Time.deltaTime);
-        //        Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, 0);
-
-        //        gameObjects[objNum].transform.localScale += new Vector3(-1 * Time.deltaTime, -1 * Time.deltaTime, 0.0f);
-        //        gameObjects[objNum].transform.position -= posTo;
-        //    }
-        //    // done
-        //    else if (timePassed >= 4.0f)
-        //    {
-        //        timePassed = 0.0f;
-        //        objNum++;
-        //    }
-        //}
-    }
-
     void PositionImages()
     {
-        //Debug.Log("Screen Widht: " + Screen.width);
-        //Debug.Log("Screen Height: " + Screen.height);
-
         // Screen bounds in units: (-8, -5), (8, 5)
         Vector2 screenBoundsTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         Vector2 screenBoundsBottomLeft  = Camera.main.ScreenToWorldPoint(Vector2.zero);
@@ -177,6 +115,7 @@ public class EncInstr : MonoBehaviour
 
             objTransform.position = Vector3.Lerp(initialPositionAnimate, centerPoint, progress);
 
+            // pause before down scaling image
             if (progress < lastProgress && !animSwitch )
             {
                 animSwitch = true;
@@ -192,27 +131,85 @@ public class EncInstr : MonoBehaviour
         objTransform.position = initialPosition;
     }
 
-   
+
+    // -------------- OLD Code , not in use ---------------
+
+    // Start is called before the first frame update
+    void DoStart()
+    {
+        sr = new SpriteRenderer[gameObjects.Count];
+
+        for (int j = 0; j < gameObjects.Count; j++)
+        {
+            sr[j] = gameObjects[j].AddComponent<SpriteRenderer>() as SpriteRenderer;
+        }
+
+        //Changing Image Position Depending on Image Index 
+        for (int index = 0; index < chosenList.Count; index++)
+        {
+            //Vector3 shift = new Vector3((widthVal / -2.0f) + (widthVal * ((0.4f + (index % 6)) / 6.0f)), (height / 2.0f) - (height * (index / 6) / 4.5f) - 3.0f, 0.0f);
+            Vector3 shift = new Vector3(0.0f, 0.0f, 0.0f);
+            mySprite = Sprite.Create(chosenList[index], new Rect(0.0f, 0.0f, chosenList[index].width, chosenList[index].height), new Vector2(0.0f, 0.0f));
+            sr[index].sprite = mySprite;
+            gameObjects[index].transform.position += shift;
+        }
+       
+    }
+
+    void DoUpdate()
+    {
+        if (timePassed < 1.0f)
+        {
+            timePassed += Time.deltaTime;
+        }
+
+        if (objNum >= 4 && timePassed >= 1.0f)
+        {
+            SceneManager.LoadScene(4);
+
+        }
+        else if (objNum < 4)
+        {
+            // scale up
+            if (timePassed >= 1.0f && timePassed < 2.0f)
+            {
+                timePassed += Time.deltaTime;
+
+                float valIncrease = 5f - (objNum * 5);
+
+                //Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, -10 * Time.deltaTime);
+                Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, 0);
+
+                gameObjects[objNum].transform.localScale += new Vector3(Time.deltaTime, Time.deltaTime);
+
+                gameObjects[objNum].transform.position += posTo;
+            }
+            // stay
+            else if (timePassed >= 2.0f && timePassed < 3.0f)
+            {
+                timePassed += Time.deltaTime;
+            }
+            // scale down
+            else if (timePassed >= 3.0f && timePassed < 4.0f)
+            {
+                float valIncrease = 5f - (objNum * 5);
+
+                timePassed += Time.deltaTime;
+
+                //Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, -10 * Time.deltaTime);
+                Vector3 posTo = new Vector3(valIncrease * Time.deltaTime, -2.5f * Time.deltaTime, 0);
+
+                gameObjects[objNum].transform.localScale += new Vector3(-1 * Time.deltaTime, -1 * Time.deltaTime, 0.0f);
+                gameObjects[objNum].transform.position -= posTo;
+            }
+            // done
+            else if (timePassed >= 4.0f)
+            {
+                timePassed = 0.0f;
+                objNum++;
+            }
+        }
+    }
 
 }
 
-// ------------------------------
-
-//IEnumerator ScaleUpAndDown(Transform objTransform, Vector3 upScale, float duration)
-//{
-//    Vector3 initialScale = objTransform.localScale;
-
-//    for (float time = 0; time < duration * 2; time += Time.deltaTime)
-//    {
-//        float progress = Mathf.PingPong(time, duration) / duration;
-//        objTransform.localScale = Vector3.Lerp(initialScale, upScale, progress);
-//        yield return null;
-//    }
-
-//    transform.localScale = initialScale;
-//}
-
-// Game Object width height in units
-//float imageWidth = gameObjects[0].GetComponent<SpriteRenderer>().bounds.size.x; // 1.27
-//float imageHeight = gameObjects[0].GetComponent<SpriteRenderer>().bounds.size.y; // 1.27
-//objTransform.position = pos + new Vector3(imageWidth / 2, imageHeight / 2, 0);

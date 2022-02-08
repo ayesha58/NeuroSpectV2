@@ -678,7 +678,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Replay
+  m_Text: Done
 --- !u!222 &869390674
 CanvasRenderer:
   m_ObjectHideFlags: 0
