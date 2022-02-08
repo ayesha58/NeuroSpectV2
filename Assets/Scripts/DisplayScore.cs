@@ -13,6 +13,8 @@ public class DisplayScore : MonoBehaviour
 
     public Text code;
 
+    public Button replayButton;
+
     /*[DllImport("__Internal")]
     private static extern void InsertData(string tableName, string code, 
         string age, string race, string gender, string attentionData, string recallData, int attentionScore, int recallScore);
@@ -25,6 +27,9 @@ public class DisplayScore : MonoBehaviour
 
     [DllImport("__Internal")]
     private static extern void NextScreen();
+
+    [DllImport("__Internal")]
+    private static extern void Replay();
 
 
     public void StringCallback(string info)
@@ -73,8 +78,13 @@ public class DisplayScore : MonoBehaviour
             recall += (r + "\n");
         }
 
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            replayButton.onClick.AddListener(Replay);
+        }
+
         // Note: commented out as we dont have the extension.jslib file code
-        SendScoreToWeb(recallScore, attentionScore);
+        //SendScoreToWeb(recallScore, attentionScore);
 
     }
 
@@ -107,4 +117,6 @@ public class DisplayScore : MonoBehaviour
         // Note: Move this to new method
         NextScreen();
     }
+
+    
 }

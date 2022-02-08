@@ -21,5 +21,8 @@ mergeInto(LibraryManager.library, {
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
+    },
+    Replay: function () {
+        window.location.reload(true);
     }
 });
