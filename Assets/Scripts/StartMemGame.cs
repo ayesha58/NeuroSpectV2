@@ -27,7 +27,9 @@ public class StartMemGame : MonoBehaviour
 
     void Start()
     {
+        PositionImages();
         pos = gameObjs[0].transform.position;
+
         StartCoroutine(Delay());
     }
 
@@ -108,5 +110,51 @@ public class StartMemGame : MonoBehaviour
     private void MoveToNextScreen()
     {
         SceneManager.LoadScene(5);
+    }
+
+    void PositionImages()
+    {
+        // Screen bounds in units: (-8, -5), (8, 5)
+        Vector2 screenBoundsTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        Vector2 screenBoundsBottomLeft = Camera.main.ScreenToWorldPoint(Vector2.zero);
+        
+        // Frame Adjustment
+        float frameSize = 0.5f;
+        screenBoundsTopRight.x -= frameSize;
+        screenBoundsTopRight.y -= frameSize;
+        screenBoundsBottomLeft.x += frameSize;
+        screenBoundsBottomLeft.y += frameSize;
+
+        // screen top left position
+        float screenLeft = screenBoundsBottomLeft.x;
+        float screenTop = screenBoundsTopRight.y;
+
+        // calculations
+        int columns = 6;
+        int rows = gameObjs.Count / columns;
+
+        float screenWidth = screenBoundsTopRight.x * 2;
+        float screenHeight = screenBoundsTopRight.y * 2;
+
+        float spacingX = screenWidth / columns;
+        float spacingY = screenHeight / rows;
+
+        float offsetX = spacingX / 2;
+        float offsetY = spacingY / 2;
+
+        for(int row = 0, index = 0; row < rows; row++)
+        {
+            for(int col = 0; col < columns; col++)
+            {
+                //int index = (row * columns + col);
+                GameObject img = gameObjs[index];
+                float posX = screenLeft + (col * spacingX) + offsetX;
+                float posY = screenTop - (row * spacingY) - offsetY;
+                float posZ = img.transform.position.z;
+                img.transform.position = new Vector3(posX, posY, posZ);
+                index++;
+            }
+        }
+
     }
 }

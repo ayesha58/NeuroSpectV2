@@ -44,17 +44,9 @@ public class EncInstr : MonoBehaviour
         Vector2 screenBoundsTopRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         Vector2 screenBoundsBottomLeft  = Camera.main.ScreenToWorldPoint(Vector2.zero);
 
-        // Game Object width height in units
-        float imageWidth = gameObjects[0].GetComponent<SpriteRenderer>().bounds.size.x; // 1.27
-        float imageHeight = gameObjects[0].GetComponent<SpriteRenderer>().bounds.size.y; // 1.27
-
-        // Sprite Texture dimensions
-        // float spriteWidth = gameObjects[0].GetComponent<SpriteRenderer>().sprite.rect.width; // 512
-        // float spriteHeight = gameObjects[0].GetComponent<SpriteRenderer>().sprite.rect.height; // 512
-
         // calculations
-        float screenWidthNormalized = screenBoundsTopRight.x * 2;
-        float spacing = screenWidthNormalized / gameObjects.Count;
+        float screenWidth = screenBoundsTopRight.x * 2;
+        float spacing = screenWidth / gameObjects.Count;
         float offsetX = spacing / 2;// - imageWidth / 2;
 
         for (int i = 0; i < gameObjects.Count; i++)
@@ -66,6 +58,14 @@ public class EncInstr : MonoBehaviour
             img.transform.position = new Vector3(posX, posY, posZ);
             
         }
+
+        // Game Object width height in units
+        // float imageWidth = gameObjects[0].GetComponent<SpriteRenderer>().bounds.size.x; // 1.27
+        // float imageHeight = gameObjects[0].GetComponent<SpriteRenderer>().bounds.size.y; // 1.27
+
+        // Sprite Texture dimensions
+        // float spriteWidth = gameObjects[0].GetComponent<SpriteRenderer>().sprite.rect.width; // 512
+        // float spriteHeight = gameObjects[0].GetComponent<SpriteRenderer>().sprite.rect.height; // 512
 
     }
 

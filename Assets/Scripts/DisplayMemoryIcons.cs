@@ -85,18 +85,25 @@ public class DisplayMemoryIcons : MonoBehaviour
 
     void Update()
     {
+        // FixScale();
+    }
 
-        float ratio = (float) Screen.width / (float) Screen.height;
+    // Note: This code is making the encoding screen images smaller on high resolution
+    void FixScale()
+    {
+        float aspectRatio = (float)Screen.width / (float)Screen.height;
 
-        Debug.Log(Screen.width + ", " + Screen.height + ", " + ratio);
+        Debug.Log(Screen.width + ", " + Screen.height + ", " + aspectRatio);
 
-        if (ratio < (1522f / 676f))
+        // aspect ratio: 2.25
+        if (aspectRatio < (1522f / 676f))
         {
             if (Screen.width > 1522f)
             {
                 canvas.transform.localScale = new Vector3(1522f / Screen.width, 1522f / Screen.width, 1f);
             }
-        } else
+        }
+        else
         {
             canvas.transform.localScale = new Vector3(Screen.width / 1522f, Screen.width / 1522f, 1f);
         }
