@@ -15,10 +15,10 @@ public class DisplayScore : MonoBehaviour
 
     public Button replayButton;
 
-    /*[DllImport("__Internal")]
+    [DllImport("__Internal")]
     private static extern void InsertData(string tableName, string code, 
         string age, string race, string gender, string attentionData, string recallData, int attentionScore, int recallScore);
-        */
+        
     [DllImport("__Internal")]
     private static extern string GetToken();
 
@@ -83,16 +83,23 @@ public class DisplayScore : MonoBehaviour
             replayButton.onClick.AddListener(Replay);
         }
 
+        //
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            InsertData("userdata", codeStr, age, race, gender, attention, recall, attentionScore, recallScore);
+        }
+
         // Note: commented out as we dont have the extension.jslib file code
-        //SendScoreToWeb(recallScore, attentionScore);
+        SendScoreToWeb(recallScore, attentionScore);
 
     }
 
+    
     private void SendScoreToWeb(int recallScore, int attentionScore)
     {
-        /*if (Application.platform == RuntimePlatform.WebGLPlayer) {
-            InsertData("userdata", codeStr, age, race, gender, attention, recall, attentionScore, recallScore);
-        }*/
+        //if (Application.platform == RuntimePlatform.WebGLPlayer) {
+        //    InsertData("userdata", codeStr, age, race, gender, attention, recall, attentionScore, recallScore);
+        //}
 
         WWWForm form = new WWWForm();
         form.AddField("recallScore", recallScore);
@@ -115,8 +122,9 @@ public class DisplayScore : MonoBehaviour
         }
 
         // Note: Move this to new method
-        NextScreen();
+        // Note: commented out, score screen displays for only a split second with this
+        // NextScreen(); 
     }
 
-    
+
 }
