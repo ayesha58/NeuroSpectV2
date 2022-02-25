@@ -9,6 +9,7 @@ public class DataStorage : MonoBehaviour
     public static int _finalScoreRecall;
     public static List<string> _attentionData;
     public static List<string> _recallData;
+    public static List<string> _visualData;
 
     public static string _age;
     public static string _gender;
@@ -71,6 +72,18 @@ public class DataStorage : MonoBehaviour
         set
         {
             _recallData = value;
+        }
+    }
+    public List<string> visualData
+    {
+        get
+        {
+            return _visualData;
+        }
+
+        set
+        {
+            _visualData = value;
         }
     }
 }
