@@ -17,6 +17,8 @@ public class DisplayMemoryIcons : MonoBehaviour
 
     public GameObject canvas;
 
+    private const int totalMemoryIcons = 30;
+
     public int subCategs(string imgName, List<Texture2D> list)
     {
         int count = 0;
@@ -46,7 +48,7 @@ public class DisplayMemoryIcons : MonoBehaviour
         
 
         //Selecting 30 Unique Random Images from set of Images
-        for (int num = 0; num < 30; num++)
+        for (int num = 0; num < totalMemoryIcons; num++)
         {
             int randNum = Random.Range(0, allImgs.Count);
             if(!chosenNums.Contains(randNum))
