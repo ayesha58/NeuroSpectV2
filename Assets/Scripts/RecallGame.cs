@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 public class RecallGame : MonoBehaviour
 {
     private bool startGame = false;
-    private float timeLeft = 5f;
+    private float timeLeft = 5f; // time passed
     private float widthDec = 0.0f;
 
     public List<Button> allButtons = new List<Button>();
@@ -33,6 +33,8 @@ public class RecallGame : MonoBehaviour
     private static int numTimesUp = 0;
 
     public static List<string> recall_data = new List<string>();
+
+    private const int totalIterations = 30;
 
     public static int[] returnScore()
     {
@@ -66,6 +68,9 @@ public class RecallGame : MonoBehaviour
         {
             numWrong++;
         }
+
+        Debug.Log(iteration + ": Total Correct:" + numCorrect);
+        Debug.Log(iteration + ": Total Wrong:" + numWrong);
     }
 
     void Instantiate()
@@ -94,7 +99,7 @@ public class RecallGame : MonoBehaviour
         {
             string[] categorization = img.ToString().Split('-');
 
-            if (categorization[0].Equals(categorizationCorrect[0]) && categorization[1].Equals(categorizationCorrect[1]) && categorization[2].Equals(categorizationCorrect[2]))
+            if (categorization[0].Equals(categorizationCorrect[0]) &&    categorization[1].Equals(categorizationCorrect[1]) && categorization[2].Equals(categorizationCorrect[2]))
             {
                 {
                     sameSubCateg.Add(img);
@@ -238,16 +243,16 @@ public class RecallGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (startGame && iteration < chosenList.Count)
+        if (startGame && iteration < chosenList.Count) // choseList.Count is same as totalIterations
         {
             // waiting for player to select image
-            if (timeLeft < 4f && !selected && iteration < 30)
+            if (timeLeft < 4f && !selected && iteration < totalIterations)
             {
                 timeLeft += Time.deltaTime;
                 timerBar.transform.localScale -= new Vector3(Time.deltaTime * widthDec, 0.0f, 0.0f);
             }
             // player selected image within time limit
-            else if (timeLeft < 4f && selected && iteration < 30)
+            else if (timeLeft < 4f && selected && iteration < totalIterations)
             {
                 string[] categorizationClicked = clickedImg.ToString().Split('-');
                 string[] categorizationCorrect = correctImg.ToString().Split('-');
@@ -262,19 +267,19 @@ public class RecallGame : MonoBehaviour
                 disableButtons();
             }
             // player failed to select image within time limit
-            else if (timeLeft >= 4f && timeLeft < 5f && !selected && iteration < 30)
+            else if (timeLeft >= 4f && timeLeft < 5f && !selected && iteration < totalIterations)
             {
                 numTimesUp++;
 
                 selected = true;
             }
             // player selected image after timeup
-            else if (timeLeft >= 4f && timeLeft < 5f && selected && iteration < 30)
+            else if (timeLeft >= 4f && timeLeft < 5f && selected && iteration < totalIterations)
             {
                 timeLeft += Time.deltaTime;
             }
             // next round
-            else if (timeLeft >= 5f && iteration < 30)
+            else if (timeLeft >= 5f && iteration < totalIterations)
             {
                 if (!selected && iteration > 0)
                 {
@@ -301,11 +306,18 @@ public class RecallGame : MonoBehaviour
             }
         }
         // recall game completed
-        else if (iteration >= 30)
+        else if (iteration >= totalIterations)
         {
             DataStorage._recallData = recall_data;
-            SceneManager.LoadScene(10);
+            MoveToNextScreen();
         }
+    }
+
+    private void MoveToNextScreen()
+    {
+        int sceneNumber = (int)Constants.SCENES.FINAL_SCORE;
+        SceneManager.LoadScene(sceneNumber);
+        
     }
 
     private void enableButtons()
