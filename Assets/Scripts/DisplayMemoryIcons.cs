@@ -17,7 +17,7 @@ public class DisplayMemoryIcons : MonoBehaviour
 
     public GameObject canvas;
 
-    private const int totalMemoryIcons = 30;
+    private const int totalMemoryIcons = Constants.RECALL_TOTAL_ITERATIONS;
 
     public int subCategs(string imgName, List<Texture2D> list)
     {

@@ -17,4 +17,7 @@ public class Constants
         VISIO_SPATIAL,
         FINAL_SCORE
     }
+
+    public const int RECALL_TOTAL_ITERATIONS = 30;
+    public const int INTERFERENCE_TOTAL_ITERATIONS = 10; //100
 }
