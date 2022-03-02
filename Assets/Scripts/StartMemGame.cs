@@ -109,7 +109,7 @@ public class StartMemGame : MonoBehaviour
 
     private void MoveToNextScreen()
     {
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene((int)Constants.SCENES.INTERFERENCE_INSTRUCTIONS);//5
     }
 
     void PositionImages()

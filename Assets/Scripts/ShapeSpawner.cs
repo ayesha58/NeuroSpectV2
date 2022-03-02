@@ -137,7 +137,7 @@ public class ShapeSpawner : MonoBehaviour
             }
             else if (correct[0] < 2)
             {
-                SceneManager.LoadScene(7);
+                SceneManager.LoadScene((int)Constants.SCENES.GOT_IT_WRONG_ALERT); //7
             }
         }
 
@@ -265,7 +265,7 @@ public class ShapeSpawner : MonoBehaviour
         else if (iterations >= totalIterations)
         {
             DataStorage._attentionData = attention_data;
-            SceneManager.LoadScene(8);
+            SceneManager.LoadScene((int)Constants.SCENES.RECALL_INSTRUCTIONS); //8
         }
 
         // skip option

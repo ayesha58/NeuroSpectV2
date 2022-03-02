@@ -26,6 +26,6 @@ public class SceneChanger : MonoBehaviour
     {
         anim.SetBool("fade", true);
         yield return new WaitUntil(() => GetComponent<SpriteRenderer>().color.a == 1);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene((int)Constants.SCENES.INTRO);//1
     }
 }

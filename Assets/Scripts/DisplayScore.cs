@@ -64,7 +64,7 @@ public class DisplayScore : MonoBehaviour
         }
 
         // track progress: save scores
-        InsertDataIntoDB(recallScore, attentionScore);
+        //InsertDataIntoDB(recallScore, attentionScore);
         SubmitScoreToServer(recallScore, attentionScore);
 
     }

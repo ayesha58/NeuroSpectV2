@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using TMPro;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class RecallGame : MonoBehaviour
 {
@@ -364,7 +361,11 @@ public class RecallGame : MonoBehaviour
 
     private void MoveToNextScreen()
     {
-        int sceneNumber = (int)Constants.SCENES.FINAL_SCORE;
+        int sceneNumber = (int)Constants.SCENES.VISUO_INSTRUCTIONS;
+        if (Constants.SKIP_VISUOSPATIAL_LEVEL == true)
+        {
+            sceneNumber = (int)Constants.SCENES.FINAL_SCORE;
+        } 
         SceneManager.LoadScene(sceneNumber);
         
     }

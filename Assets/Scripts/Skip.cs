@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,16 +5,16 @@ public class Skip : MonoBehaviour
 {
     public void onClickEnc()
     {
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene((int)Constants.SCENES.INTERFERENCE_INSTRUCTIONS);//5
     }
 
     public void onClickAttention()
     {
-        SceneManager.LoadScene(8);
+        SceneManager.LoadScene((int) Constants.SCENES.RECALL_INSTRUCTIONS);//8
     }
 
     public void onClickRecall()
     {
-        SceneManager.LoadScene(10);
+        SceneManager.LoadScene((int)Constants.SCENES.VISUO_INSTRUCTIONS);//10
     }
 }

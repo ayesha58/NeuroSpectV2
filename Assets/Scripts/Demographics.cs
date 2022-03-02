@@ -28,6 +28,7 @@ public class Demographics : MonoBehaviour
 
     public void onClick()
     {
-        SceneManager.LoadScene(3);
+        int sceneNum = (int)Constants.SCENES.ENCODING_INSTRUCTIONS; //3
+        SceneManager.LoadScene(sceneNum);
     }
 }

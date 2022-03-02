@@ -3,7 +3,7 @@ public class Constants
 {
     public enum SCENES
     {
-        MAIN_MENU,
+        MAIN_MENU = 0,
         INTRO,
         DEMOGRAPHICS,
         ENCODING_INSTRUCTIONS,
@@ -19,5 +19,7 @@ public class Constants
     }
 
     public const int RECALL_TOTAL_ITERATIONS = 30;
-    public const int INTERFERENCE_TOTAL_ITERATIONS = 10; //100
+    public const int INTERFERENCE_TOTAL_ITERATIONS = 10;//100;
+
+    public static bool SKIP_VISUOSPATIAL_LEVEL = false;
 }
