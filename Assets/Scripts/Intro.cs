@@ -11,7 +11,7 @@ public class Intro : MonoBehaviour
 
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);//5
         changeScene = true;
     }
 
@@ -24,7 +24,7 @@ public class Intro : MonoBehaviour
     {
         if(changeScene)
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene((int)Constants.SCENES.DEMOGRAPHICS);//2
         }
 
         // skip option

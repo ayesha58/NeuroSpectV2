@@ -18,13 +18,13 @@ public class DisplayScoreVisuo : MonoBehaviour
 
     public Button replayButton;
 
-    [DllImport("__Internal")]
-    private static extern void InsertData(string tableName, string code,
-        string age, string race, string gender, string attentionData, string recallData, int attentionScore, int recallScore);
-
     //[DllImport("__Internal")]
     //private static extern void InsertData(string tableName, string code,
-    //    string age, string race, string gender, string attentionData, string recallData, string visualData, float attentionScore, float recallScore, float visualScore, string timestamp);
+    //    string age, string race, string gender, string attentionData, string recallData, int attentionScore, int recallScore);
+
+    [DllImport("__Internal")]
+    private static extern void InsertData(string tableName, string code,
+        string age, string race, string gender, string attentionData, string recallData, string visualData, float attentionScore, float recallScore, float visualScore, string timestamp);
 
     [DllImport("__Internal")]
     private static extern string GetToken();
@@ -123,17 +123,17 @@ public class DisplayScoreVisuo : MonoBehaviour
         string timestamp = DateTime.Now.ToString(@"MM\/dd\/yyyy");
 
         // Dynamo DB insertion
-        //if (Application.platform == RuntimePlatform.WebGLPlayer)
-        //{
-        //    InsertData("neuro-spect-data", codeStr, age, race, gender, attention, recall, visuo, attentionScore, recallScore, visuoScore, timestamp);
-        //}
-        //
-
-        // Dynamo DB insertion
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            InsertData("userdata", codeStr, age, race, gender, attention, recall, attentionScore, recallScore);
+            InsertData("neuro-spect-data", codeStr, age, race, gender, attention, recall, visuo, attentionScore, recallScore, visuoScore, timestamp);
         }
+
+
+        // Dynamo DB insertion
+        //if (Application.platform == RuntimePlatform.WebGLPlayer)
+        //{
+        //    InsertData("userdata", codeStr, age, race, gender, attention, recall, attentionScore, recallScore);
+        //}
     }
 
     private void SubmitScoreToServer(int recallScore, int attentionScore)

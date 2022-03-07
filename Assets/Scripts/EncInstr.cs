@@ -34,8 +34,8 @@ public class EncInstr : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         yield return StartCoroutine(AnimateImages());
-        yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(4);
+        yield return new WaitForSeconds(7);//1
+        SceneManager.LoadScene((int)Constants.SCENES.ENCODING);//4
     }
 
     void PositionImages()
