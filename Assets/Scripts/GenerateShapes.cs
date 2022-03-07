@@ -270,7 +270,7 @@ public class GenerateShapes : MonoBehaviour
         } else
         {
             DataStorage._visualData = visual_data;
-            SceneManager.LoadScene(12);
+            SceneManager.LoadScene((int)Constants.SCENES.FINAL_SCORE_VISUO);//
         }
     }
 }

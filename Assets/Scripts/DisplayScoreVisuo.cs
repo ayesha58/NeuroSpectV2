@@ -5,21 +5,27 @@ using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using UnityEngine.Networking;
 using System.Text;
+using System;
 
-public class DisplayScore : MonoBehaviour
+public class DisplayScoreVisuo : MonoBehaviour
 {
 
     public Text attentionText;
     public Text recallText;
+    public Text visuoText;
 
     public Text code;
 
     public Button replayButton;
 
     [DllImport("__Internal")]
-    private static extern void InsertData(string tableName, string code, 
+    private static extern void InsertData(string tableName, string code,
         string age, string race, string gender, string attentionData, string recallData, int attentionScore, int recallScore);
-        
+
+    //[DllImport("__Internal")]
+    //private static extern void InsertData(string tableName, string code,
+    //    string age, string race, string gender, string attentionData, string recallData, string visualData, float attentionScore, float recallScore, float visualScore, string timestamp);
+
     [DllImport("__Internal")]
     private static extern string GetToken();
 
@@ -44,18 +50,27 @@ public class DisplayScore : MonoBehaviour
         // calculate attention score and recall score
         List<int>[] attentionScoreTotal = ShapeSpawner.returnScore();
         int[] recallScoreTotal = RecallGame.returnScore();
+        float visuoScore = GenerateShapes.returnScore();
 
         int attentionScore = 0;
-        foreach(int num in attentionScoreTotal[0])
+        foreach (int num in attentionScoreTotal[0])
         {
             attentionScore += num;
         }
 
         int recallScore = recallScoreTotal[0];
 
+        if (recallScore > 30)
+        {
+            recallScore = 30;
+        }
+
+        float recallScorePercent = recallScore * 100 / 30;
+
         // update labels
         attentionText.text = "Attention: You're Final Score was " + attentionScore + "/100!";
-        recallText.text = "Memory: You're Final Score was " + recallScore + "/30!";
+        recallText.text = "Recall: You're Final Score was " + recallScore + "/30!";
+        visuoText.text = "Visuospatial: Your Final Score was " + visuoScore + "/15";
 
         // add click listener to Done button
         if (Application.platform == RuntimePlatform.WebGLPlayer)
@@ -65,13 +80,13 @@ public class DisplayScore : MonoBehaviour
 
         // track progress: save scores
         if(Constants.INSERT_SCORE_IN_DATABASE)
-            InsertDataIntoDB(recallScore, attentionScore);
+            InsertDataIntoDB(recallScore, attentionScore, visuoScore);
 
         SubmitScoreToServer(recallScore, attentionScore);
 
     }
 
-    private void InsertDataIntoDB(int recallScore, int attentionScore)
+    private void InsertDataIntoDB(int recallScore, int attentionScore, float visuoScore)
     {
         Debug.Log("Inserting Score to Database");
 
@@ -80,23 +95,39 @@ public class DisplayScore : MonoBehaviour
 
         List<string> attentionData = DataStorage._attentionData;
         List<string> recallData = DataStorage._recallData;
+        List<string> visualData = DataStorage._visualData;
         string age = DataStorage._age;
         string race = DataStorage._race;
         string gender = DataStorage._gender;
 
         string attention = "";
         string recall = "";
+        string visuo = "";
 
         code.text += " " + codeStr;
 
         foreach (string a in attentionData)
         {
-            attention += (a + "\n");
+            attention += (a);//(a + "\n");
         }
         foreach (string r in recallData)
         {
-            recall += (r + "\n");
+            recall += (r);//(r + "\n");
         }
+        foreach (string r in visualData)
+        {
+            visuo += (r);
+        }
+
+        //
+        string timestamp = DateTime.Now.ToString(@"MM\/dd\/yyyy");
+
+        // Dynamo DB insertion
+        //if (Application.platform == RuntimePlatform.WebGLPlayer)
+        //{
+        //    InsertData("neuro-spect-data", codeStr, age, race, gender, attention, recall, visuo, attentionScore, recallScore, visuoScore, timestamp);
+        //}
+        //
 
         // Dynamo DB insertion
         if (Application.platform == RuntimePlatform.WebGLPlayer)

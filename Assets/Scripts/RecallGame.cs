@@ -412,6 +412,8 @@ public class RecallGame : MonoBehaviour
 
     // ------------------ Get Textures based on Category --------------------
 
+    // Texture name format: 1-Fruits-Berries-005blueberry: General-Category-SubCategory-Name
+
     List<Texture2D> GetSameSubCategoryTextures(Texture2D tx, List<Texture2D> txList)
     {
         string[] categorizationCorrect = tx.ToString().Split('-');
