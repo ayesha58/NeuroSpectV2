@@ -50,9 +50,10 @@ public class DisplayScoreVisuo : MonoBehaviour
         // calculate attention score and recall score
         List<int>[] attentionScoreTotal = ShapeSpawner.returnScore();
         int[] recallScoreTotal = RecallGame.returnScore();
-        float visuoScore = GenerateShapes.returnScore();
+        int visuoScore = VisuoGame.returnScore(); //GenerateShapes.returnScore();
 
         int attentionScore = 0;
+        
         foreach (int num in attentionScoreTotal[0])
         {
             attentionScore += num;
@@ -60,17 +61,12 @@ public class DisplayScoreVisuo : MonoBehaviour
 
         int recallScore = recallScoreTotal[0];
 
-        if (recallScore > 30)
+        if (recallScore > Constants.RECALL_TOTAL_ITERATIONS)
         {
-            recallScore = 30;
+            recallScore = Constants.RECALL_TOTAL_ITERATIONS;
         }
 
-        float recallScorePercent = recallScore * 100 / 30;
-
-        // update labels
-        attentionText.text = "Attention: You're Final Score was " + attentionScore + "/100!";
-        recallText.text = "Recall: You're Final Score was " + recallScore + "/30!";
-        visuoText.text = "Visuospatial: Your Final Score was " + visuoScore + "/15";
+        SetScoreLabels(attentionScore, recallScore, visuoScore);
 
         // add click listener to Done button
         if (Application.platform == RuntimePlatform.WebGLPlayer)
@@ -189,6 +185,23 @@ public class DisplayScoreVisuo : MonoBehaviour
         // Note: Move this to new method
         // Note: commented out, score screen displays for only a split second with this
         // NextScreen(); 
+    }
+
+    void SetScoreLabels(int attentionScore, int recallScore, int visuoScore)
+    {
+        float attentionScorePercent = attentionScore * 100 / Constants.INTERFERENCE_TOTAL_ITERATIONS;
+        float recallScorePercent = recallScore * 100 / Constants.RECALL_TOTAL_ITERATIONS;
+        float visuoScorePercent = visuoScore * 100 / Constants.VISUOSPATIAL_TOTAL_ITERATIONS;
+
+        // set score values
+        //attentionText.text = "Attention:  " + attentionScore + "/100";
+        //recallText.text = "Memory:  " + recallScore + "/30";
+        //visuoText.text = "Visuospatial:  " + visuoScore + "/15";
+
+        // set score percent values
+        attentionText.text = "Attention:  " + attentionScorePercent + "%";
+        recallText.text = "Memory:  " + recallScorePercent + "%";
+        visuoText.text = "Visuospatial:  " + visuoScorePercent + "%";
     }
 
 

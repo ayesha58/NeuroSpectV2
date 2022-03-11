@@ -1,41 +1,36 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-/**
- * Update: 11th March 2022 (AIbrahim)
- * Note: This file is not in use anymore. It is kept here for reference purpose. VisuoSpatial level is now using VisuoGame.cs script
- */
-
-
-public class GenerateShapes : MonoBehaviour
+public class VisuoGame : MonoBehaviour
 {
+
+    public GameObject totalShape;
+
+    public List<GameObject> optionsShapes = new List<GameObject>();
+
+    private List<GameObject> optionsShapesShuffled = new List<GameObject>();
+    private List<float> optionsShapesRotations = new List<float>();
+
+    // Game Configurations
+    private const int totalIterations = Constants.VISUOSPATIAL_TOTAL_ITERATIONS;// 25;
 
     private static int questionNum = 1;
     private float timeBetween = 0.0f;
     private int direction;
     private List<int> directions = new List<int>();
 
-    public GameObject totalShape;
-
-    private static System.Random rng = new System.Random();
-
-    public List<GameObject> optionsShapes = new List<GameObject>();
-    private List<GameObject> optionsShapesShuffled = new List<GameObject>();
-    private List<float> optionsShapesRotations = new List<float>();
-
     public static int correctScore = 0;
+
     private string correctButton;
     public static string clickedButton;
     public static Boolean buttonClicked = false;
 
-    public static List<string> visual_data = new List<string>();
-    private Vector3 movement = new Vector3(0, 0, 0);
+    private static System.Random rng = new System.Random();
 
-    private List<List<Vector3>> originalLocs = new List<List<Vector3>>();
+    public static List<string> visual_data = new List<string>();
+
 
     public static void Shuffle(List<GameObject> list)
     {
@@ -49,8 +44,6 @@ public class GenerateShapes : MonoBehaviour
             list[n] = value;
         }
     }
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -71,27 +64,23 @@ public class GenerateShapes : MonoBehaviour
             temp.Add(child.position);
             Debug.Log("Option shape child: " + child.position);
         }
-        originalLocs.Add(temp);
-        foreach(GameObject obj in optionsShapes)
+
+        foreach (GameObject obj in optionsShapes)
         {
             List<Vector3> temp2 = new List<Vector3>();
-            foreach(Transform child in totalShape.GetComponentInChildren<Transform>())
+            foreach (Transform child in totalShape.GetComponentInChildren<Transform>())
             {
                 temp2.Add(child.position);
                 Debug.Log(child.position);
             }
-            originalLocs.Add(temp2);
         }
     }
 
-    void generateShape(GameObject totalStructure, List<int> directionList, float rotateAmount, int positionNum)
+    void generateShape(GameObject totalStructure, List<int> directionList, float rotateAmount)
     {
-        //totalStructure.transform.position -= movement;
         totalStructure.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
 
         List<GameObject> listCubes = new List<GameObject>();
-        listCubes.Clear();
-
         
 
         foreach (Transform child in totalStructure.GetComponentInChildren<Transform>())
@@ -99,87 +88,102 @@ public class GenerateShapes : MonoBehaviour
             listCubes.Add(child.gameObject);
         }
 
-        Vector3 distanceTraveled = new Vector3(0.0f, 0.0f, 0.0f);
-
         for (int i = 1; i < listCubes.Count; i++)
         {
-            GameObject cubeCenter = listCubes[0];
             if (i < listCubes.Count - 1)
             {
-                if (((int) (directionList[i - 1] / 2)) == ((int) directionList[i] / 2))
+                if (((int)(directionList[i - 1] / 2)) == ((int)directionList[i] / 2))
                 {
                     directionList[i] += 2;
                 }
                 directionList[i] %= 6;
             }
+
+            GameObject cubeCenter = listCubes[0];
+
+            Vector3 cubeCenterBoxColliderSize = cubeCenter.GetComponent<BoxCollider>().bounds.size;
+
+            Vector3 offset = Vector3.zero;
+
             switch (directionList[i - 1])
             {
                 case 0: //TOP
-                    listCubes[i].transform.position = cubeCenter.transform.position + new Vector3(0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.y, 0.0f);
-                    distanceTraveled += new Vector3(0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.y, 0.0f);
+
+                    // offset = new Vector3(0f, cubeCenterBoxColliderSize.y, 0f);
+                    
+                    offset = new Vector3(0f, 1f, 0f);
+
                     break;
+
                 case 1: //BOTTOM
-                    listCubes[i].transform.position = cubeCenter.transform.position - new Vector3(0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.y, 0.0f);
-                    distanceTraveled -= new Vector3(0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.y, 0.0f);
+
+                    // offset = new Vector3(0f, -cubeCenterBoxColliderSize.y, 0f);
+
+                    offset = new Vector3(0f, -1f, 0f);
+
                     break;
+
                 case 2: //RIGHT
-                    listCubes[i].transform.position = cubeCenter.transform.position + new Vector3(cubeCenter.GetComponent<BoxCollider>().bounds.size.x, 0.0f, 0.0f);
-                    distanceTraveled += new Vector3(cubeCenter.GetComponent<BoxCollider>().bounds.size.x, 0.0f, 0.0f);
+
+                    // offset = new Vector3(cubeCenterBoxColliderSize.x, 0f, 0f);
+
+                    offset = new Vector3(1f, 0f, 0f);
+
                     break;
+
                 case 3: //LEFT
-                    listCubes[i].transform.position = cubeCenter.transform.position - new Vector3(cubeCenter.GetComponent<BoxCollider>().bounds.size.x, 0.0f, 0.0f);
-                    distanceTraveled -= new Vector3(cubeCenter.GetComponent<BoxCollider>().bounds.size.x, 0.0f, 0.0f);
+
+                    // offset = new Vector3(-cubeCenterBoxColliderSize.x, 0f, 0f);
+
+                    offset = new Vector3(-1f, 0f, 0f);
+
                     break;
+
                 case 4: //FRONT
-                    listCubes[i].transform.position = cubeCenter.transform.position - new Vector3(0.0f, 0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.z);
-                    distanceTraveled -= new Vector3(0.0f, 0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.z);
+
+                    // offset = new Vector3(0f, 0f, -cubeCenterBoxColliderSize.z);
+
+                    offset = new Vector3(0f, 0f, -1f);
+
                     break;
+
                 case 5: //BEHIND
-                    listCubes[i].transform.position = cubeCenter.transform.position + new Vector3(0.0f, 0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.z);
-                    distanceTraveled += new Vector3(0.0f, 0.0f, cubeCenter.GetComponent<BoxCollider>().bounds.size.z);
+
+                    // offset = new Vector3(0f, 0f, cubeCenterBoxColliderSize.z);
+
+                    offset = new Vector3(0f, 0f, 1f);
+
                     break;
             }
+
+            listCubes[i].transform.localPosition =
+                        cubeCenter.transform.localPosition
+                        + offset;
         }
 
-        /*if(distanceTraveled.x > 0 && rotateAmount < 0)
-        {
-            movement = new Vector3(0.25f, 0.0f, 0.0f);
-            totalStructure.transform.position += movement;
-        } else if (distanceTraveled.x < 0 && rotateAmount < 0)
-        {
-            movement = new Vector3(1.0f, 0.0f, 0.0f);
-            totalStructure.transform.position += movement;
-        }
-        else if (distanceTraveled.x > 0 && rotateAmount > 0)
-        {
-            movement = new Vector3(-1.0f, 0.0f, 0.0f);
-            totalStructure.transform.position += movement;
-        }
-        else if (distanceTraveled.x < 0 && rotateAmount > 0)
-        {
-            movement = new Vector3(-0.25f, 0.0f, 0.0f);
-            totalStructure.transform.position += movement;
-        }*/
-
-            totalStructure.transform.Rotate(0.0f, rotateAmount, 0.0f);
+        totalStructure.transform.Rotate(0.0f, rotateAmount, 0.0f);
     }
 
     void resetRotations()
     {
-        for(int i = 0; i < optionsShapesShuffled.Count; i++)
+        for (int i = 0; i < optionsShapesShuffled.Count; i++)
         {
             optionsShapesShuffled[i].transform.Rotate(0.0f, -1 * optionsShapesRotations[i], 0.0f);
         }
     }
 
-    void generateOptions() {
+    void generateOptions()
+    {
+        // reset all options cubes to default transform values
+        foreach (GameObject sh in optionsShapes) ResetShape(sh);
+
         List<int> direction1 = new List<int>(directions);
         List<int> direction2 = new List<int>(directions);
         List<int> direction3 = new List<int>(directions);
         List<int> direction4 = new List<int>(directions);
 
         int temp = direction1[0];
-        while(direction1[0] == temp)
+        while (direction1[0] == temp)
         {
             direction1[0] = rng.Next(0, 6);
         }
@@ -200,26 +204,26 @@ public class GenerateShapes : MonoBehaviour
         Shuffle(options);
         optionsShapesShuffled = options;
 
-        int next = rng.Next(1, 4) * 30;
+        int next = rng.Next(1, 4) * 30; // rotation
         optionsShapesRotations.Add(next);
-        generateShape(options[0], direction1, next, 1);
+        generateShape(options[0], direction1, next);
 
         next = rng.Next(1, 4) * 30;
         optionsShapesRotations.Add(next);
-        generateShape(options[1], direction2, next, 2);
+        generateShape(options[1], direction2, next);
 
         next = rng.Next(1, 4) * 30;
         optionsShapesRotations.Add(next);
-        generateShape(options[2], direction3, next, 3);
+        generateShape(options[2], direction3, next);
 
         next = rng.Next(1, 4) * 30;
         optionsShapesRotations.Add(next);
-        generateShape(options[3], direction4, next, 4);
+        generateShape(options[3], direction4, next);
 
         correctButton = options[3].name;
     }
 
-    public static float returnScore()
+    public static int returnScore()
     {
         return correctScore;
     }
@@ -227,17 +231,28 @@ public class GenerateShapes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(buttonClicked)
+        if (buttonClicked)
         {
             resetRotations();
+
             if (clickedButton.Split('-')[1].Equals(correctButton.Split('-')[1]))
             {
                 correctScore++;
-                visual_data.Add(questionNum + "," + clickedButton.Split('-')[1] + "," + correctButton.Split('-')[1] + "True" + "," + timeBetween);
+                visual_data.Add(
+                    questionNum + ","
+                    + clickedButton.Split('-')[1] + ","
+                    + correctButton.Split('-')[1]
+                    + "True" + ","
+                    + timeBetween);
             }
             else
             {
-                visual_data.Add(questionNum + "," + clickedButton.Split('-')[1] + "," + correctButton.Split('-')[1] + "False" + "," + timeBetween);
+                visual_data.Add(
+                    questionNum + ","
+                    + clickedButton.Split('-')[1] + ","
+                    + correctButton.Split('-')[1]
+                    + "False" + ","
+                    + timeBetween);
             }
 
             questionNum++;
@@ -245,10 +260,10 @@ public class GenerateShapes : MonoBehaviour
             buttonClicked = false;
         }
 
-        
-        if (questionNum <= 25)
+
+        if (questionNum <= totalIterations)
         {
-            if(timeBetween == 0.0f)
+            if (timeBetween == 0.0f)
             {
                 int count = 0;
 
@@ -261,22 +276,42 @@ public class GenerateShapes : MonoBehaviour
                     count++;
                 }
 
-                generateShape(totalShape, directions, 0.0f, 0);
+                generateShape(totalShape, directions, 0.0f);
                 generateOptions();
 
                 timeBetween += Time.deltaTime;
                 directions.Clear();
-            } else if(timeBetween >= 10.0f)
+            }
+            else if (timeBetween >= 10.0f)
             {
-                visual_data.Add(questionNum + "," + "Null" + "," + correctButton.Split('-')[1] + "False" + "," + timeBetween);
+                visual_data.Add(
+                    questionNum + ","
+                    + "Null" + ","
+                    + correctButton.Split('-')[1]
+                    + "False" + ","
+                    + timeBetween);
+
                 questionNum++;
                 timeBetween = 0.0f;
                 buttonClicked = false;
             }
-        } else
+        }
+        else
         {
             DataStorage._visualData = visual_data;
-            SceneManager.LoadScene((int)Constants.SCENES.FINAL_SCORE_VISUO);//
+            SceneManager.LoadScene((int)Constants.SCENES.FINAL_SCORE_VISUO);
+        }
+    }
+
+    // reset shape made of cubes
+    void ResetShape(GameObject totalStructure)
+    {
+        foreach (Transform child in totalStructure.GetComponentInChildren<Transform>())
+        {
+            child.localPosition = Vector3.zero;
+            child.localScale = Vector3.one;
+            child.localRotation = Quaternion.identity;
+
         }
     }
 }

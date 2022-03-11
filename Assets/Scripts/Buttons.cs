@@ -10,6 +10,8 @@ public class Buttons : MonoBehaviour
     {
         GenerateShapes.clickedButton = button.name;
         GenerateShapes.buttonClicked = true;
+        VisuoGame.clickedButton = button.name;
+        VisuoGame.buttonClicked = true;
     }
 
 }

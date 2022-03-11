@@ -65,7 +65,7 @@ public class RecallGame : MonoBehaviour
 
         DeActivateButtons();
 
-        foreach (Texture2D img in this.allImgs)
+        foreach (Texture2D img in allImgs)
         {
             if (!chosenList.Contains(img))
             {
@@ -123,9 +123,9 @@ public class RecallGame : MonoBehaviour
         //Add 2 Same Sub-Category Img
         List<Texture2D> sameSubCateg = GetSameSubCategoryTextures(correctImg, notChosen);
 
-        Debug.Log(iteration + ": Find Sub Categs");
-        Debug.Log(correctImg.ToString());
-        Debug.Log("Num of sub categs: " + sameSubCateg.Count);
+        Debug.Log(iteration + ": Find Same Sub Categories");
+        Debug.Log("Correct Image: " + correctImg.ToString());
+        Debug.Log("Same Sub Categories Count: " + sameSubCateg.Count);
 
         int rand1 = Random.Range(0, sameSubCateg.Count);
         int rand2 = Random.Range(0, sameSubCateg.Count);
@@ -139,22 +139,32 @@ public class RecallGame : MonoBehaviour
         displayedImgs.Add(sameSubCateg[rand2]);
         displayedImgs.Add(correctImg);
 
-        Debug.Log(iteration + ": Choose Sub Categs");
-
         //Add 1 Same Category Img
         List<Texture2D> sameCateg = GetSameCategoryTextures(correctImg, notChosen);
+
+        Debug.Log(iteration + ": Find Same Categories");
+        Debug.Log("Correct Image: " + correctImg.ToString());
+        Debug.Log("Same Categories Count: " + sameCateg.Count);
 
         displayedImgs.Add(sameCateg[Random.Range(0, sameCateg.Count)]);
 
 
-        //Add 1 Same Category Img
+        //Add 1 Same Category General Img
         List<Texture2D> sameGeneral = GetSameCategoryGeneralTextures(correctImg, notChosen);
+
+        Debug.Log(iteration + ": Find Same General Categories");
+        Debug.Log("Correct Image: " + correctImg.ToString());
+        Debug.Log("Same General Categories Count: " + sameGeneral.Count);
 
         displayedImgs.Add(sameGeneral[Random.Range(0, sameGeneral.Count)]);
 
 
         //Add 1 Different Category Img
         List<Texture2D> different = GetDifferentCategoryTextures(correctImg, notChosen);
+
+        Debug.Log(iteration + ": Find Different Categories");
+        Debug.Log("Correct Image: " + correctImg.ToString());
+        Debug.Log("Different Categories Count: " + different.Count);
 
         displayedImgs.Add(different[Random.Range(0, different.Count)]);
 
