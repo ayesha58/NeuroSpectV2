@@ -14,7 +14,7 @@ public class RecallGame : MonoBehaviour
     private Texture2D correctImg;
     private Texture2D clickedImg;
 
-    public List<Texture2D> allImgs;
+    private List<Texture2D> allImgs;
     private List<Texture2D> chosenList;
     private List<Texture2D> notChosen = new List<Texture2D>();
 
@@ -45,6 +45,9 @@ public class RecallGame : MonoBehaviour
     private const float totalTime = 5f;
     private const float totalTimeToPlay = 4f;
 
+    // Memory Images
+    private MemoryImagesUtil memoryImagesUtil;
+
 
     public static int[] returnScore()
     {
@@ -60,6 +63,10 @@ public class RecallGame : MonoBehaviour
 
     void Start()
     {
+        // Memory Images
+        memoryImagesUtil = GameObject.Find("MemoryImages").GetComponent<MemoryImagesUtil>();
+        allImgs = memoryImagesUtil.allImgs;
+
         widthDec = timerBar.transform.localScale.x / 4;
         this.chosenList = DisplayMemoryIcons.chosenList;
 
@@ -121,7 +128,7 @@ public class RecallGame : MonoBehaviour
         Debug.Log(iteration + ": Add Correct Img");
 
         //Add 2 Same Sub-Category Img
-        List<Texture2D> sameSubCateg = GetSameSubCategoryTextures(correctImg, notChosen);
+        List<Texture2D> sameSubCateg = memoryImagesUtil.GetSameSubCategoryTextures(correctImg, notChosen);
 
         Debug.Log(iteration + ": Find Same Sub Categories");
         Debug.Log("Correct Image: " + correctImg.ToString());
@@ -130,17 +137,20 @@ public class RecallGame : MonoBehaviour
         int rand1 = Random.Range(0, sameSubCateg.Count);
         int rand2 = Random.Range(0, sameSubCateg.Count);
 
-        while (rand2 == rand1)
+        if (sameSubCateg.Count >= 2)
         {
-            rand2 = Random.Range(0, sameSubCateg.Count);
+            while (rand2 == rand1)
+            {
+                rand2 = Random.Range(0, sameSubCateg.Count);
+            }
         }
-
+        
         displayedImgs.Add(sameSubCateg[rand1]);
         displayedImgs.Add(sameSubCateg[rand2]);
         displayedImgs.Add(correctImg);
 
         //Add 1 Same Category Img
-        List<Texture2D> sameCateg = GetSameCategoryTextures(correctImg, notChosen);
+        List<Texture2D> sameCateg = memoryImagesUtil.GetSameCategoryTextures(correctImg, notChosen);
 
         Debug.Log(iteration + ": Find Same Categories");
         Debug.Log("Correct Image: " + correctImg.ToString());
@@ -150,7 +160,7 @@ public class RecallGame : MonoBehaviour
 
 
         //Add 1 Same Category General Img
-        List<Texture2D> sameGeneral = GetSameCategoryGeneralTextures(correctImg, notChosen);
+        List<Texture2D> sameGeneral = memoryImagesUtil.GetSameCategoryGeneralTextures(correctImg, notChosen);
 
         Debug.Log(iteration + ": Find Same General Categories");
         Debug.Log("Correct Image: " + correctImg.ToString());
@@ -160,7 +170,7 @@ public class RecallGame : MonoBehaviour
 
 
         //Add 1 Different Category Img
-        List<Texture2D> different = GetDifferentCategoryTextures(correctImg, notChosen);
+        List<Texture2D> different = memoryImagesUtil.GetDifferentCategoryTextures(correctImg, notChosen);
 
         Debug.Log(iteration + ": Find Different Categories");
         Debug.Log("Correct Image: " + correctImg.ToString());
@@ -419,100 +429,6 @@ public class RecallGame : MonoBehaviour
             button.gameObject.SetActive(false);
         }
     }
-
-    // ------------------ Get Textures based on Category --------------------
-
-    // Texture name format: 1-Fruits-Berries-005blueberry: General-Category-SubCategory-Name
-
-    List<Texture2D> GetSameSubCategoryTextures(Texture2D tx, List<Texture2D> txList)
-    {
-        string[] categorizationCorrect = tx.ToString().Split('-');
-
-        //Add 2 Same Sub-Category Img
-        List<Texture2D> selectedTexturesList = new List<Texture2D>();
-        foreach (Texture2D txt in txList)
-        {
-            string[] categorization = txt.ToString().Split('-');
-
-            if (categorization[0].Equals(categorizationCorrect[0]) && categorization[1].Equals(categorizationCorrect[1]) && categorization[2].Equals(categorizationCorrect[2]))
-            {
-                {
-                    selectedTexturesList.Add(txt);
-                }
-            }
-        }
-
-        return selectedTexturesList;
-    }
-
-    List<Texture2D> GetSameCategoryTextures(Texture2D tx, List<Texture2D> txList)
-    {
-        string[] categorizationCorrect = tx.ToString().Split('-');
-
-        //Add 2 Same Sub-Category Img
-        List<Texture2D> selectedTexturesList = new List<Texture2D>();
-        foreach (Texture2D txt in txList)
-        {
-            string[] categorization = txt.ToString().Split('-');
-
-            if (categorization[0].Equals(categorizationCorrect[0]) && categorization[1].Equals(categorizationCorrect[1]) &&
-                !categorization[2].Equals(categorizationCorrect[2]))
-            {
-                {
-                    selectedTexturesList.Add(txt);
-                }
-            }
-        }
-
-        return selectedTexturesList;
-    }
-
-    List<Texture2D> GetSameCategoryGeneralTextures(Texture2D tx, List<Texture2D> txList)
-    {
-        string[] categorizationCorrect = tx.ToString().Split('-');
-
-        //Add 2 Same Sub-Category Img
-        List<Texture2D> selectedTexturesList = new List<Texture2D>();
-        foreach (Texture2D txt in txList)
-        {
-            string[] categorization = txt.ToString().Split('-');
-
-            if (categorization[0].Equals(categorizationCorrect[0]) &&
-                !categorization[1].Equals(categorizationCorrect[1]) &&
-                !categorization[2].Equals(categorizationCorrect[2]))
-            {
-                {
-                    selectedTexturesList.Add(txt);
-                }
-            }
-        }
-
-        return selectedTexturesList;
-    }
-
-    List<Texture2D> GetDifferentCategoryTextures(Texture2D tx, List<Texture2D> txList)
-    {
-        string[] categorizationCorrect = tx.ToString().Split('-');
-
-        //Add 2 Same Sub-Category Img
-        List<Texture2D> selectedTexturesList = new List<Texture2D>();
-        foreach (Texture2D txt in txList)
-        {
-            string[] categorization = txt.ToString().Split('-');
-
-            if (!categorization[0].Equals(categorizationCorrect[0]) &&
-                !categorization[1].Equals(categorizationCorrect[1]) &&
-                !categorization[2].Equals(categorizationCorrect[2]))
-            {
-                {
-                    selectedTexturesList.Add(txt);
-                }
-            }
-        }
-
-        return selectedTexturesList;
-    }
-
 
     // ----------------- Discard Methods --------------------
 

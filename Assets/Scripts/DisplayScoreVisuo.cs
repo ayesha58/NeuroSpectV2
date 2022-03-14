@@ -78,7 +78,7 @@ public class DisplayScoreVisuo : MonoBehaviour
         if(Constants.INSERT_SCORE_IN_DATABASE)
             InsertDataIntoDB(recallScore, attentionScore, visuoScore);
 
-        SubmitScoreToServer(recallScore, attentionScore);
+        SubmitScoreToServer(recallScore, attentionScore, visuoScore);
 
     }
 
@@ -132,7 +132,7 @@ public class DisplayScoreVisuo : MonoBehaviour
         //}
     }
 
-    private void SubmitScoreToServer(int recallScore, int attentionScore)
+    private void SubmitScoreToServer(int recallScore, int attentionScore, int visuoScore)
     {
         Debug.Log("Submitting score to server");
 
@@ -141,6 +141,7 @@ public class DisplayScoreVisuo : MonoBehaviour
         string paramsJsonStr =
             "{ \"recallScore\": " + recallScore
             + ", \"attentionScore\": " + attentionScore
+            + ", \"visuoSpatialScore\": " + visuoScore
             + " }";
 
         StartCoroutine(Post(path, paramsJsonStr));
