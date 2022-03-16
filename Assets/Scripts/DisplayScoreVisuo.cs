@@ -80,6 +80,8 @@ public class DisplayScoreVisuo : MonoBehaviour
 
         SubmitScoreToServer(recallScore, attentionScore, visuoScore);
 
+        
+
     }
 
     private void InsertDataIntoDB(int recallScore, int attentionScore, float visuoScore)
@@ -190,9 +192,13 @@ public class DisplayScoreVisuo : MonoBehaviour
 
     void SetScoreLabels(int attentionScore, int recallScore, int visuoScore)
     {
-        float attentionScorePercent = attentionScore * 100 / Constants.INTERFERENCE_TOTAL_ITERATIONS;
-        float recallScorePercent = recallScore * 100 / Constants.RECALL_TOTAL_ITERATIONS;
-        float visuoScorePercent = visuoScore * 100 / Constants.VISUOSPATIAL_TOTAL_ITERATIONS;
+        float attentionScorePercent = Mathf.Round(attentionScore * 100 / Constants.INTERFERENCE_TOTAL_ITERATIONS);
+        float recallScorePercent = Mathf.Round(recallScore * 100 / Constants.RECALL_TOTAL_ITERATIONS);
+        float visuoScorePercent = Mathf.Round(visuoScore * 100 / Constants.VISUOSPATIAL_TOTAL_ITERATIONS);
+
+        attentionText.text = attentionScorePercent + "%";
+        recallText.text = recallScorePercent + "%";
+        visuoText.text = visuoScorePercent + "%";
 
         // set score values
         //attentionText.text = "Attention:  " + attentionScore + "/100";
@@ -200,9 +206,13 @@ public class DisplayScoreVisuo : MonoBehaviour
         //visuoText.text = "Visuospatial:  " + visuoScore + "/15";
 
         // set score percent values
-        attentionText.text = "Attention:  " + attentionScorePercent + "%";
-        recallText.text = "Memory:  " + recallScorePercent + "%";
-        visuoText.text = "Visuospatial:  " + visuoScorePercent + "%";
+        //attentionText.text = "Attention:  " + attentionScorePercent + "%";
+        //recallText.text = "Memory:  " + recallScorePercent + "%";
+        //visuoText.text = "Visuospatial:  " + visuoScorePercent + "%";
+
+        //attentionText.text = "9%";
+        //recallText.text = "10%";
+        //visuoText.text = "0%";
     }
 
 

@@ -238,6 +238,9 @@ public class VisuoGame : MonoBehaviour
             if (clickedButton.Split('-')[1].Equals(correctButton.Split('-')[1]))
             {
                 correctScore++;
+
+                Debug.Log("Visuo Correct Score: " + correctScore);
+
                 visual_data.Add(
                     questionNum + ","
                     + clickedButton.Split('-')[1] + ","
