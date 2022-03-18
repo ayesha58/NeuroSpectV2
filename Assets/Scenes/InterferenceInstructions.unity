@@ -495,7 +495,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808125805}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 116, y: -155, z: 0}
+  m_LocalPosition: {x: 116, y: -196.01, z: 0}
   m_LocalScale: {x: 30, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 1541698565}
@@ -586,8 +586,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 71.99}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 850, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1815969850
 MonoBehaviour:
@@ -619,14 +619,15 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "This is the 2nd Phase which will test \nyour attention and processing
-    capacity\nYou will be shown two shapes,\nsometimes different and at other times
-    the same. \nYour job is to figure out if they are the same or different color.\r\nIf
-    You think they are the same, Press A.\r\nIf You think they are Different, Press
-    D.\r\n"
+  m_Text: "This is the second phase, which will test your attention and processing
+    speed. You will be shown two shapes, sometimes different and sometimes the same.
+    Your job is to focus on the color and not the shape and figure out if the color
+    is the same or different!\nIf you think they are same, Press A. \nIf you think
+    they are different Press D\n\nBy the way, the quicker you make that decision,
+    the better!"
 --- !u!222 &1815969851
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -669,7 +670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -60, y: -153.99}
+  m_AnchoredPosition: {x: -60, y: -195}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1925609186

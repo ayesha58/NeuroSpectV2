@@ -14,6 +14,7 @@ public class RecallInstructions : MonoBehaviour
     public void onCorrectClick()
     {
         text.text = "Great! Get Ready to Start!";
+        PlayAudio();
         StartCoroutine(Delay());
     }
 
@@ -30,5 +31,12 @@ public class RecallInstructions : MonoBehaviour
         {
             SceneManager.LoadScene((int)Constants.SCENES.RECALL);//
         }
+    }
+
+    void PlayAudio()
+    {
+        AudioSource[] audios = GameObject.Find("AudioObject")?.GetComponents<AudioSource>();
+        audios[0]?.Stop();
+        audios[1]?.Play();
     }
 }

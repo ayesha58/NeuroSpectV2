@@ -361,7 +361,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349423496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -435,7 +435,7 @@ Canvas:
   m_GameObject: {fileID: 1541698561}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 177454180}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -493,7 +493,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808125805}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.8400116, z: 0}
+  m_LocalPosition: {x: 0, y: -3.8400116, z: 90}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -538,7 +538,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4efbb15b459c4d845b4e215ae78c4d12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -585,7 +585,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 71.99}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 850, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1815969850
 MonoBehaviour:
@@ -609,7 +609,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2e07a3e0fac54f649a4a58dfb3ecfc46, type: 3}
-    m_FontSize: 30
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -617,12 +617,21 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "This is the final phase which will test \nyour visuospatial skills.\nYou
-    will be shown a shape and 4 options.\nYour job is click on the one option that\nrepresents
-    the main shape, but rotated.\n"
+  m_Text: 'This is the final phase of the game. You will be shown an object to the
+    top and four objects below it. Only one of the objects is the same as the object
+    to the top, but it will be rotated slightly.
+
+    Your job is to figure out which
+    one of the options is the rotated version of the object to the top. Once you
+    are confident in your choice, click on the option that you think is the same
+    as the object to the top.
+
+    Your answer wont be revealed immediately, you
+    will simply move on to the next question. You will have to answer 25 of these
+    questions!'
 --- !u!222 &1815969851
 CanvasRenderer:
   m_ObjectHideFlags: 0
